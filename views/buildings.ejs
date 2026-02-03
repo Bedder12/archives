@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Byggnader · Fastighetsdokument</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container">
+      <div>
+        <h1>Byggnader</h1>
+        <p class="muted">Välj byggnad för att hitta rätt dokument snabbt.</p>
+      </div>
+      <form method="POST" action="/logout">
+        <button class="button ghost" type="submit">Logga ut</button>
+      </form>
+    </div>
+  </header>
+  <main class="container">
+    <form method="GET" action="/buildings" class="search">
+      <input type="text" name="search" placeholder="Sök på namn eller adress" value="<%= search %>">
+      <button class="button" type="submit">Sök</button>
+    </form>
+
+    <div class="grid">
+      <% if (buildings.length === 0) { %>
+        <p class="muted">Inga byggnader matchar din sökning.</p>
+      <% } %>
+      <% buildings.forEach((building) => { %>
+        <a class="card link" href="/buildings/<%= building.id %>">
+          <h2><%= building.name %></h2>
+          <p class="muted"><%= building.address %></p>
+          <span class="chip">Dokument översikt</span>
+        </a>
+      <% }) %>
+    </div>
+  </main>
+</body>
+</html>

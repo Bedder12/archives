@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= building.name %> · Dokument</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container">
+      <div>
+        <a class="breadcrumb" href="/buildings">← Alla byggnader</a>
+        <h1><%= building.name %></h1>
+        <p class="muted"><%= building.address %></p>
+      </div>
+      <form method="POST" action="/logout">
+        <button class="button ghost" type="submit">Logga ut</button>
+      </form>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Luckor & risker</h2>
+      <div class="stack">
+        <% if (gaps.length === 0) { %>
+          <p class="muted">Inga tydliga luckor – allt ser uppdaterat ut.</p>
+        <% } %>
+        <% gaps.forEach((gap) => { %>
+          <div class="gap <%= gap.severity %>">
+            <strong><%= gap.message %></strong>
+          </div>
+        <% }) %>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Filtrera dokument</h2>
+      <form method="GET" class="filters">
+        <label>
+          Dokumenttyp
+          <select name="type">
+            <option value="">Alla</option>
+            <option value="ritning" <%= filters.type === 'ritning' ? 'selected' : '' %>>Ritning</option>
+            <option value="OVK" <%= filters.type === 'OVK' ? 'selected' : '' %>>OVK</option>
+            <option value="brandskydd" <%= filters.type === 'brandskydd' ? 'selected' : '' %>>Brandskydd</option>
+            <option value="service" <%= filters.type === 'service' ? 'selected' : '' %>>Service</option>
+          </select>
+        </label>
+        <label>
+          Status
+          <select name="status">
+            <option value="">Alla</option>
+            <option value="gällande" <%= filters.status === 'gällande' ? 'selected' : '' %>>Gällande</option>
+            <option value="osäker" <%= filters.status === 'osäker' ? 'selected' : '' %>>Osäker</option>
+            <option value="ersatt" <%= filters.status === 'ersatt' ? 'selected' : '' %>>Ersatt</option>
+          </select>
+        </label>
+        <label>
+          År
+          <input type="number" name="year" placeholder="t.ex. 2020" value="<%= filters.year %>">
+        </label>
+        <button class="button" type="submit">Visa</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Dokument</h2>
+      <div class="table">
+        <div class="table-row header">
+          <span>Dokument</span>
+          <span>Typ</span>
+          <span>År</span>
+          <span>Status</span>
+        </div>
+        <% if (documents.length === 0) { %>
+          <div class="table-row">
+            <span class="muted">Inga dokument matchar filtren.</span>
+          </div>
+        <% } %>
+        <% documents.forEach((doc) => { %>
+          <a class="table-row link" href="/documents/<%= doc.id %>">
+            <span><%= doc.filename %></span>
+            <span><%= doc.document_type %></span>
+            <span><%= doc.year %></span>
+            <span class="status"><%= statusLabel(doc.status) %></span>
+          </a>
+        <% }) %>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

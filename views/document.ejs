@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= document.filename %> · Dokument</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container">
+      <div>
+        <a class="breadcrumb" href="/buildings/<%= document.building_id %>">← Tillbaka till <%= document.building_name %></a>
+        <h1><%= document.filename %></h1>
+        <p class="muted">Dokumentvisning i webbläsaren</p>
+      </div>
+      <form method="POST" action="/logout">
+        <button class="button ghost" type="submit">Logga ut</button>
+      </form>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card meta">
+      <div>
+        <span class="label">Typ</span>
+        <strong><%= document.document_type %></strong>
+      </div>
+      <div>
+        <span class="label">År</span>
+        <strong><%= document.year %></strong>
+      </div>
+      <div>
+        <span class="label">Status</span>
+        <strong class="status"><%= statusLabel(document.status) %></strong>
+      </div>
+    </section>
+
+    <section class="card viewer">
+      <iframe title="Dokument" src="<%= document.file_url %>" class="pdf"></iframe>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logga in · Fastighetsdokument</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="container narrow">
+    <div class="card">
+      <h1>Logga in</h1>
+      <p class="muted">Hitta rätt dokument på under 5 minuter.</p>
+      <% if (error) { %>
+        <div class="alert error"><%= error %></div>
+      <% } %>
+      <form method="POST" action="/login" class="stack">
+        <label>
+          Email
+          <input type="email" name="email" value="<%= demoEmail %>" required>
+        </label>
+        <label>
+          Lösenord
+          <input type="password" name="password" value="demo123" required>
+        </label>
+        <button class="button primary" type="submit">Logga in</button>
+      </form>
+      <p class="hint">Demo-konto: <%= demoEmail %> / demo123</p>
+    </div>
+  </main>
+</body>
+</html>
